@@ -9,7 +9,7 @@ stores = [{
 
 @app.route('/')
 def home():
-  return render_template('index.html')
+  return '<h1> teste </h1>'
 
 #post /store data: {name :}
 @app.route('/store' , methods=['POST'])
