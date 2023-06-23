@@ -1,7 +1,8 @@
-from flask import Flask,jsonify,request,render_template
+from flask import Flask, jsonify, request, render_template
+import pandas as pd
 
 app = Flask(__name__)
-#testes
+
 stores = [{
     'name': 'My Store',
     'items': [{'name':'my item', 'price': 15.99 }]
@@ -9,59 +10,14 @@ stores = [{
 
 @app.route('/')
 def home():
-  return '<h1> teste do 2 deploy </h1>'
+    return '<h1> teste do 2 deploy </h1>'
 
-#post /store data: {name :}
-@app.route('/store' , methods=['POST'])
-def create_store():
-  request_data = request.get_json()
-  new_store = {
-    'name':request_data['name'],
-    'items':[]
-  }
-  stores.append(new_store)
-  return jsonify(new_store)
-  #pass
-
-#get /store/<name> data: {name :}
-@app.route('/store/<string:name>')
-def get_store(name):
-  for store in stores:
-    if store['name'] == name:
-          return jsonify(store)
-  return jsonify ({'message': 'store not found'})
-  #pass
-
-#get /store
-@app.route('/store')
-def get_stores():
-  return jsonify({'stores': stores})
-  #pass
-
-#post /store/<name> data: {name :}
-@app.route('/store/<string:name>/item' , methods=['POST'])
-def create_item_in_store(name):
-  request_data = request.get_json()
-  for store in stores:
-    if store['name'] == name:
-        new_item = {
-            'name': request_data['name'],
-            'price': request_data['price']
-        }
-        store['items'].append(new_item)
-        return jsonify(new_item)
-  return jsonify ({'message' :'store not found'})
-  #pass
-
-#get /store/<name>/item data: {name :}
-@app.route('/store/<string:name>/item')
-def get_item_in_store(name):
-  for store in stores:
-    if store['name'] == name:
-        return jsonify( {'items':store['items'] } )
-  return jsonify ({'message':'store not found'})
-
-  #pass
+@app.route('/create_excel')
+def create_excel():
+    data = {'Column 1': ['Data 1']}
+    df = pd.DataFrame(data)
+    df.to_excel('excel_output.xlsx', index=False)
+    return 'Excel file created!'
 
 if __name__ == '__main__':
     app.run()
