@@ -1,6 +1,7 @@
 from flask import Flask, jsonify, request, render_template
 import pandas as pd
 import os
+from werkzeug.utils import secure_filename
 
 app = Flask(__name__)
 
@@ -29,6 +30,21 @@ def read_excel():
     df = pd.read_excel(filename)
     return df.to_html()
 
+@app.route('/upload', methods=['POST'])
+def upload():
+    if 'file' not in request.files:
+        return 'No file part', 400
+
+    file = request.files['file']
+
+    if file.filename == '':
+        return 'No selected file', 400
+
+    filename = secure_filename(file.filename)
+    #filename = file.filename
+    file.save(filename)
+
+    return 'File uploaded successfully'
 
 if __name__ == '__main__':
     app.run()
