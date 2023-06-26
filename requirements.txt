@@ -5,3 +5,4 @@ uwsgi
 gunicorn
 Pandas
 openpyxl
+werkzeug
