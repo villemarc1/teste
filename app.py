@@ -16,7 +16,7 @@ def home():
 def create_excel():
     data = {'Column 1': ['Data 1']}
     df = pd.DataFrame(data)
-    #df.to_excel('excel_output.xlsx', index=False)
+    df.to_excel('excel_output.xlsx', index=False)
     return 'Excel file created!'
 
 if __name__ == '__main__':
